@@ -1,13 +1,13 @@
-<h3>Products</h3>
+<h3>Product</h3>
 
 <div *ngIf="(products$ | async)?.length>0;else noproduct">
   <ul>
-    <li *ngFor="let p of products$">
-      {{p.name}} | {{p.price}} | {{p.department}}
+    <li *ngFor="let p of (products$ | async)">
+      Name: {{p.name}} | Price: {{p.price}} | Department: {{p.department}}
     </li>
   </ul>
 </div>
 
 <ng-template #noproduct>
-  <p>No Person found!</p>
+  Produyct not found
 </ng-template>

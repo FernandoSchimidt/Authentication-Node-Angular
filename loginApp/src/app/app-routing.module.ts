@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/main/people' },
-  { path: 'main', loadChildren: 'main/main.module#MainModule' }
+  { path: 'main', loadChildren: './main/main.module#MainModule' }
 ];
 
 @NgModule({

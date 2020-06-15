@@ -1,10 +1,10 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MainModule } from './main/main.module';
+import { AuthRoutingModule } from './auth-routing.module';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+
 
 import { MatRippleModule, MatNativeDateModule } from "@angular/material/core";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
@@ -41,22 +41,13 @@ import { MatTabsModule } from "@angular/material/tabs";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatTreeModule } from "@angular/material/tree";
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { AuthModule } from './auth/auth.module';
-
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [LoginComponent, RegisterComponent],
   imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    // MainModule,
+    CommonModule,
+    AuthRoutingModule,
     MatAutocompleteModule,
     MatBadgeModule,
     MatBottomSheetModule,
@@ -93,13 +84,7 @@ import { AuthModule } from './auth/auth.module';
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
-    FormsModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    FlexLayoutModule,
-    AuthModule,
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    ReactiveFormsModule
+  ]
 })
-export class AppModule { }
+export class AuthModule { }
