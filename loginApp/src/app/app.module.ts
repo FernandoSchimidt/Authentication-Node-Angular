@@ -42,10 +42,11 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatTreeModule } from "@angular/material/tree";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AuthModule } from './auth/auth.module';
+import { AuthInterceptor } from './auth/auth.interceptor';
 
 
 @NgModule({
@@ -97,9 +98,12 @@ import { AuthModule } from './auth/auth.module';
     HttpClientModule,
     ReactiveFormsModule,
     FlexLayoutModule,
-    AuthModule,
+    AuthModule.forRoot(),
   ],
-  providers: [],
+  providers: [
+    //se estiver no mesmo modulo
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

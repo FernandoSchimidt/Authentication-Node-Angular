@@ -30,9 +30,9 @@ export class LoginComponent implements OnInit {
     this.authService.login(credentials)
       .subscribe(
         (user) => {
-          console.log(user)
+          console.log('aqui',user)
           this.snackBar.open(
-            'Logged in successfuly. Wellcome ' + user.firstname + '!', 'Ok', { duration: 2000 }
+            'Logged in successfuly. Wellcome ' + user.email + '!', 'Ok', { duration: 2000 }
           )
           this.router.navigateByUrl('/')
         },

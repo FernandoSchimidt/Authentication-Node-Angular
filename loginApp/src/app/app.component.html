@@ -1,7 +1,8 @@
 <mat-toolbar>
   My app
   <span fxFlex></span>
-  <div>
+
+  <ng-container *ngIf="!(authenticated$ | async)">
     <button mat-button routerLink="/auth/login">
       <mat-icon>input</mat-icon>
       &nbsp;Sign in
@@ -10,14 +11,32 @@
       <mat-icon>person_add</mat-icon>
       &nbsp;Sign Up
     </button>
+  </ng-container>
 
+
+
+  <ng-container *ngIf="(authenticated$ | async) && (user$ | async)">
     <button mat-icon-button routerLink="/main/people">
       <mat-icon>home</mat-icon>
     </button>
     <button mat-icon-button routerLink="/main/products">
       <mat-icon>shop</mat-icon>
     </button>
-  </div>
+    <button mat-icon-button (click)="logout()">
+      <mat-icon>exit_to_app</mat-icon>
+    </button>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <p class="userName">{{(user$ | async)?.email}}</p>
+      <mat-divider></mat-divider>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+        Exit
+      </button>
+    </mat-menu>
+  </ng-container>
 </mat-toolbar>
 
 <router-outlet></router-outlet>

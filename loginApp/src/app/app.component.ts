@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { AuthService } from './auth/auth.service';
+import { Observable } from 'rxjs';
+import { User } from './auth/user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +10,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'loginApp2';
+
+  authenticated$: Observable<boolean>;
+  user$: Observable<User>;
+
+  constructor(private authService: AuthService, private router: Router) {
+    this.authenticated$ = this.authService.isAuthenticated();
+    this.user$ = authService.getUser();
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigateByUrl('/auth/login');
+  }
+
 }
