@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from './user';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, BehaviorSubject, of } from 'rxjs';
+import { tap, map, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -34,8 +34,31 @@ export class AuthService {
         })
       )
   }
+
   isAuthenticated(): Observable<boolean> {
+    const token = localStorage.getItem('token');
+    if (token && !this.subjLoggedIn$.value) {
+      return this.checkTokenValidation();
+    }
     return this.subjLoggedIn$.asObservable();
+  }
+
+  checkTokenValidation(): Observable<boolean> {
+    return this.http.get<User>(`${this.url}/user`)
+      .pipe(
+        tap((u: User) => {
+          if (u) {
+            localStorage.setItem('token', u.token)
+            this.subjLoggedIn$.next(true);
+            this.subjUser$.next(u);
+          }
+        }),
+        map((u: User) => (u) ? true : false),
+        catchError((err) => {
+          this.logout();
+          return of(false);
+        })
+      );
   }
 
   getUser(): Observable<User> {

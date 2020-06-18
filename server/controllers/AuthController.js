@@ -65,4 +65,26 @@ module.exports = {
       next();
     });
   },
+
+  user_data: function (req, res) {
+    const token = req.get("Authorization");
+    jwt.verify(token, consts.keyJWT, (err, decoded) => {
+      const id = decoded._id;
+      UserModel.findById(id)
+        .lean()
+        .exec(function(err, user){
+          if (err || !user) {
+            return res.status(500).json({
+              message: "Error when trying to fetch user data",
+              error: err,
+            });
+          }
+          let token = jwt.sign({ _id: user._id }, consts.keyJWT, {
+            expiresIn: consts.expiresJWT,
+          });
+          delete user.password;
+          return res.json({ ...user, token: token });
+        });
+    });
+  },
 };
